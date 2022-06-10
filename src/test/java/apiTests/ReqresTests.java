@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 
 public class ReqresTests {
 
@@ -27,11 +28,12 @@ public class ReqresTests {
     }
     @Test
     void loginTest() {
-        var loginRequest = new LoginRequest(email, password);
+        var request = new LoginRequest(email, password);
+
         given()
                 .log().uri()
                 .log().body()
-                .body(loginRequest)
+                .body(request)
                 .contentType(JSON)
                 .when()
                 .post("/api/login")
@@ -39,7 +41,7 @@ public class ReqresTests {
                 .log().status()
                 .log().body()
                 .statusCode(200)
-                .body("token", is("QpwL5tke4Pnpja7X4"));
+                .body("token", notNullValue());
     }
 
     @Test
@@ -60,7 +62,7 @@ public class ReqresTests {
     }
 
     @Test
-    void UserLogin() {
+    void userLogin() {
 
         var userRequest = new UserRequest("morpheus", "leader");
         given()
@@ -95,7 +97,9 @@ public class ReqresTests {
 
     @Test
     void putUsersTest() {
-        var putRequest = new PutUsersRequest("morpheus", "zion resident");
+        PutUsersRequest putRequest = new PutUsersRequest("morpheus", "zion resident");
+
+
         LocalDate intDate = LocalDate.now();
         String date = intDate.toString();
 
@@ -116,5 +120,4 @@ public class ReqresTests {
         Assertions.assertEquals(putRequest.getName(), "morpheus");
         Assertions.assertTrue(response.updatedAt.contains(date));
     }
-
 }
