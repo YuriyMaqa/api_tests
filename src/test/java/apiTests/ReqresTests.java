@@ -95,7 +95,7 @@ public class ReqresTests {
 
     @Test
     void putUsersTest() {
-        PutUsersRequest putRequest = new PutUsersRequest("morpheus", "zion resident");
+        var putRequest = new PutUsersRequest("morpheus", "zion resident");
         LocalDate intDate = LocalDate.now();
         String date = intDate.toString();
 
